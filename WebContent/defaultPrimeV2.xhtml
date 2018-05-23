@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Title</title>
+</h:head>
+<h:body>
+	<h1>Inicio con Maven+MyBatis+Spring+JSF</h1>
+	<h3>Clientes DB</h3>
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+		<p:dataTable id="clientes" var="cli"
+			value="#{clienteBean.getClienteList()}" editable="true"
+			style="margin-bottom:20px">
+			<f:facet name="header">
+				Edición de clientes
+			</f:facet>
+			<p:ajax event="rowEdit" listener="#{clienteBean.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel" listener="#{clienteBean.onRowCancel}"
+				update=":form:msgs" />
+
+			<p:column headerText="Id">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.idcliente}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText id="clienteInput" value="#{cli.idcliente}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Nombre">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.clinombre}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.clinombre}" style="width:100%"
+							label="Nombre" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Apellido">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.cliapellidos}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.cliapellidos}" style="width:100%"
+							label="Apellido" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Direccion">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.clidireccion}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.clidireccion}" style="width:100%" label="Direccion" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column style="width:32px">
+				<p:rowEditor/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
