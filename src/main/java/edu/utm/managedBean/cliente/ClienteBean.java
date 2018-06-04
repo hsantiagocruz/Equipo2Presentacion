@@ -40,8 +40,11 @@ public class ClienteBean {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void onRwowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edición cancelada",
+	public void onRowCancel(RowEditEvent event) {
+		Cliente cliente = ((Cliente) event.getObject());
+		System.out.println("Datos cliente: " + cliente.getIdcliente());
+		clienteService.deleteOneCliente(cliente);
+		FacesMessage msg = new FacesMessage("Cliente eliminado",
 				((Cliente) event.getObject()).getIdcliente().toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}

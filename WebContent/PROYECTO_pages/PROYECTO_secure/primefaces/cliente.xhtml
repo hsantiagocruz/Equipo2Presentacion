@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/PROYECTO_pages/PROYECTO_secure/primefaces/template/common/commonLayout.xhtml">
+	<ui:define name="header">
+		<div class="container">
+			<div class="page-header">
+				<h1>SQL Dinámico + Maven + Mybatis + Spring + Primefaces + Facelets</h1>
+			</div>
+		</div>
+	</ui:define>
+	<!-- Se define la sección a sustituir del layout -->
+	<ui:define name="content">
+	<div class="container">
+		<div class="col-md-12">
+			<h:form role="form" id="formCliente">
+				<div class="col-md-12">
+					<p:dataTable id="tablaCliente" value="#{clienteConsultaNuevoBean.listaCliente}" var="cliente"
+						paginator="true" rows="5"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}{PageLinks}
+						{LastPageLink} {RowsPerPageDropdown}" 
+						paginatorPosition="bottom"
+						emptyMessage="No se encontraron datos">
+						<f:facet name ="header">
+							Tabla de Clientes
+						</f:facet>
+						<p:column headerText="Id">
+							#{cliente.idcliente}
+						</p:column>
+						<p:column headerText="Nombre">
+							#{cliente.clinombre}
+						</p:column>
+						<p:column headerText="Apellidos">
+							#{cliente.cliapellidos}
+						</p:column>
+						<p:column headerText="Telefono">
+							#{cliente.clitelefono}
+						</p:column>
+						<p:column headerText="Dirección">
+							#{cliente.clidireccion}
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Nuevo Cliente" onclick="PF('dialogCliente').show();"/>
+							<p:commandButton value="Eliminar Cliente" onclick="PF('elimCliente').show();"/>
+							<p:commandButton value="Actualizar Cliente" onclick="PF('updateCliente').show();"/>
+						</f:facet>
+					</p:dataTable>
+				</div>	
+			</h:form>
+		<!-- dialog de registro -->
+		<p:dialog id="dialogCliente" widgetVar="dialogCliente"
+			modal="true" resizable="false" header="Nuevo Cliente" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formRegistro">
+						<div class="form-group">
+							<label for="firstName">Nombre:</label>
+							<p:inputText id="firstName"
+								value="#{clienteConsultaNuevoBean.cliente.clinombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="firstName"/>
+						</div>
+						<div class="form-group">
+							<label for="Apellido">Apellidos</label>
+							<p:inputText id="apellido"
+								value="#{clienteConsultaNuevoBean.cliente.cliapellidos}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="apellido"/>
+						</div>
+						<div class="form-group">
+							<label for="telefono">Teléfono</label>
+							<p:inputText id="telefono"
+								value="#{clienteConsultaNuevoBean.cliente.clitelefono}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="telefono"/>
+						</div>
+						<div class="form-group">
+							<label for="direccion">Dirección</label>
+							<p:inputText id="direccion"
+								value="#{clienteConsultaNuevoBean.cliente.clidireccion}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="direccion"/>
+						</div>
+						<p:commandButton id="btnRegistro" value="Registrar"
+						actionListener="#{clienteConsultaNuevoBean.registrar}"
+						update=":formRegistro, :formCliente:tablaCliente"
+						oncomplete="PF('dialogCliente').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+		
+		<!-- Eliminar Cliente-->
+		<p:dialog id="elimCliente" widgetVar="elimCliente"
+			modal="true" resizable="false" header="Eliminar Cliente" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formDelete">
+						<div class="form-group">
+							<label for="ID">ID:</label>
+							<p:inputText id="ID"
+								value="#{clienteConsultaNuevoBean.cliente.idcliente}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<p:commandButton id="btnEliminar" value="Eliminar"
+						actionListener="#{clienteConsultaNuevoBean.eliminar}"
+						update=":formDelete, :formCliente:tablaCliente"
+						oncomplete="PF('elimCliente').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>
+		<!-- Actualizar Cliente -->
+		<p:dialog id="updateCliente" widgetVar="updateCliente"
+			modal="true" resizable="false" header="Actualizar Cliente" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formUpdate">
+						<div class="form-group">
+							<label for="ID">Id:</label>
+							<p:inputText id="ID"
+								value="#{clienteConsultaNuevoBean.cliente.idcliente}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<div class="form-group">
+							<label for="Name">Nombre:</label>
+							<p:inputText id="Name"
+								value="#{clienteConsultaNuevoBean.cliente.clinombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="Name"/>
+						</div>
+						<div class="form-group">
+							<label for="apellido">Apellidos</label>
+							<p:inputText id="apellido"
+								value="#{clienteConsultaNuevoBean.cliente.cliapellidos}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="apellido"/>
+						</div>
+						<div class="form-group">
+							<label for="telefono">Teléfono</label>
+							<p:inputText id="telefono"
+								value="#{clienteConsultaNuevoBean.cliente.clitelefono}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="telefono"/>
+						</div>
+						<div class="form-group">
+							<label for="direccion">Dirección</label>
+							<p:inputText id="direccion"
+								value="#{clienteConsultaNuevoBean.cliente.clidireccion}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="direccion"/>
+						</div>
+						<p:commandButton id="btnUpdate" value="Actualizar"
+						actionListener="#{clienteConsultaNuevoBean.actualizar}"
+						update=":formUpdate, :formCliente:tablaCliente"
+						oncomplete="PF('updateCliente').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+		</div>
+	</div>
+	<div class="container">
+		<br />
+		<h:link value="Regresar a index"
+		outcome="/PROYECTO_pages/PROYECTO_secure/primefaces/index"
+		styleClass="btn btn-warning"/>
+	</div>
+</ui:define>
+</ui:composition>
+</html>

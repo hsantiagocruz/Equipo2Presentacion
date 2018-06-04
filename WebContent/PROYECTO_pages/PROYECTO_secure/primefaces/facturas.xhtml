@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/PROYECTO_pages/PROYECTO_secure/primefaces/template/common/commonLayout.xhtml">
+	<ui:define name="content">
+ 	<div class="jumbotron" style="margin-top:-70px;">
+		<div class="container" align="center">
+			<h2>Informacion de Facturas</h2>
+		</div>
+	</div>
+ </ui:define>
+	<!-- Se define la sección a sustituir del layout -->
+	<ui:define name="content">
+	<div class="container">
+		<div class="col-md-12">
+			<h:form role="form" id="formFactura">
+				<div class="col-md-12">
+					<p:dataTable id="compras" var="fac"
+						value="#{facturaBean.getFacturaList()}" editable="false"
+						style="margin-bottom:20px">
+						<f:facet name="header">
+							Compras
+						</f:facet>
+						<p:column headerText="Id">
+							<h:outputText value="#{fac.idfactura}" />
+						</p:column>
+						<p:column headerText="Fecha">
+							<h:outputText value="#{fac.facfecha}" />
+						</p:column>
+						<p:column headerText="Id de venta">
+							<h:outputText value="#{fac.ventaId}" />
+						</p:column>
+						<p:column headerText="Información">
+							<h:outputText value="#{fac.facnif}" />
+						</p:column>
+					</p:dataTable>
+				</div>	
+			</h:form>
+		
+		
+		</div>
+	</div>
+	<div class="container">
+		<br />
+		<h:link value="Regresar a index"
+		outcome="/PROYECTO_pages/PROYECTO_secure/primefaces/index"
+		styleClass="btn btn-warning"/>
+	</div>
+</ui:define>
+</ui:composition>
+</html>

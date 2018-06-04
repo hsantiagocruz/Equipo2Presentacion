@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/PROYECTO_pages/PROYECTO_secure/primefaces/template/common/commonLayout.xhtml">
+ <ui:define name="content">
+ 	 <div class="jumbotron" style="margin-top:-70px;">
+		<div class="container" align="center">
+			<h2>Informacion de Usuarios</h2>
+		</div>
+	</div>
+ </ui:define>
+	<!-- Se define la sección a sustituir del layout -->
+	<ui:define name="content">
+	<div class="container">
+		<div class="col-md-12">
+			<h:form role="form" id="formUsuario">
+				<div class="col-md-12">
+					<p:dataTable id="tablaUsuario" value="#{usuarioConsultaNuevoBean.listaUsuario}" var="usuario"
+						
+						emptyMessage="No se encontraron datos">
+						<f:facet name ="header">
+							Tabla de Usuarios
+						</f:facet>
+						<p:column headerText="Id">
+							#{usuario.idusuario}
+						</p:column>
+						<p:column headerText="Nombre">
+							#{usuario.usunombre}
+						</p:column>
+						<p:column headerText="Apellidos">
+							#{usuario.usuapellidos}
+						</p:column>
+						<p:column headerText="Nick">
+							#{usuario.usunick}
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Nuevo Usuario" onclick="PF('dialogUsuario').show();"/>
+							<p:commandButton value="Eliminar Usuario" onclick="PF('elimUsuario').show();"/>
+							<p:commandButton value="Actualizar Usuario" onclick="PF('updateUsuario').show();"/>
+						</f:facet>
+					</p:dataTable>
+				</div>	
+			</h:form>
+		<!-- dialog de registro -->
+		<p:dialog id="dialogUsuario" widgetVar="dialogUsuario"
+			modal="true" resizable="false" header="Nuevo Usuario" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formRegistro">
+						<div class="form-group">
+							<label for="firstName">Nombre:</label>
+							<p:inputText id="firstName"
+								value="#{usuarioConsultaNuevoBean.usuario.usunombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="firstName"/>
+						</div>
+						<div class="form-group">
+							<label for="Apellido">Apellidos</label>
+							<p:inputText id="apellido"
+								value="#{usuarioConsultaNuevoBean.usuario.usuapellidos}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="apellido"/>
+						</div>
+						<div class="form-group">
+							<label for="nick">Nick</label>
+							<p:inputText id="nick"
+								value="#{usuarioConsultaNuevoBean.usuario.usunick}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="nick"/>
+						</div>
+						<div class="form-group">
+							<label for="password">password</label>
+							<p:inputText id="password"
+								value="#{usuarioConsultaNuevoBean.usuario.usupass}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="password"/>
+						</div>
+						<p:commandButton id="btnRegistro" value="Registrar"
+						actionListener="#{usuarioConsultaNuevoBean.registrar}"
+						update=":formRegistro, :formUsuario:tablaUsuario"
+						oncomplete="PF('dialogUsuario').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+
+		<!-- Eliminar Usuario-->
+		<p:dialog id="elimUsuario" widgetVar="elimUsuario"
+			modal="true" resizable="false" header="Eliminar Usuario" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formDelete">
+						<div class="form-group">
+							<label for="ID">ID:</label>
+							<p:inputText id="ID"
+								value="#{usuarioConsultaNuevoBean.usuario.idusuario}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<p:commandButton id="btnEliminar" value="Eliminar"
+						actionListener="#{usuarioConsultaNuevoBean.eliminar}"
+						update=":formDelete, :formUsuario:tablaUsuario"
+						oncomplete="PF('elimUsuario').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+		<!-- Actualizar Usuario -->
+		<p:dialog id="updateUsuario" widgetVar="updateUsuario"
+			modal="true" resizable="false" header="Actualizar Usuario" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formUpdate">
+						<div class="form-group">
+							<label for="ID">Id:</label>
+							<p:inputText id="ID"
+								value="#{usuarioConsultaNuevoBean.usuario.idusuario}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<div class="form-group">
+							<label for="Name">Nombre:</label>
+							<p:inputText id="Name"
+								value="#{usuarioConsultaNuevoBean.usuario.usunombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="Name"/>
+						</div>
+						<div class="form-group">
+							<label for="apellido">Apellidos</label>
+							<p:inputText id="apellido"
+								value="#{usuarioConsultaNuevoBean.usuario.usuapellidos}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="apellido"/>
+						</div>
+						<div class="form-group">
+							<label for="Nick">Nick</label>
+							<p:inputText id="Nick"
+								value="#{usuarioConsultaNuevoBean.usuario.usunick}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="Nick"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<p:inputText id="password"
+								value="#{usuarioConsultaNuevoBean.usuario.usupass}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8-80 caracteres">
+							</p:inputText>
+							<p:message for="password"/>
+						</div>
+						<p:commandButton id="btnUpdate" value="Actualizar"
+						actionListener="#{usuarioConsultaNuevoBean.actualizar}"
+						update=":formUpdate, :formUsuario:tablaUsuario"
+						oncomplete="PF('updateUsuario').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>
+		</div>
+	</div>
+	<div class="container">
+		<br />
+		<h:link value="Regresar a index"
+		outcome="/PROYECTO_pages/PROYECTO_secure/primefaces/index"
+		styleClass="btn btn-warning"/>
+	</div>
+</ui:define>
+</ui:composition>
+</html>

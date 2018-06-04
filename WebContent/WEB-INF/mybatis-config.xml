@@ -6,6 +6,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<mappers>
 		<mapper resource="edu/utm/bd/mappers/ClienteMapper.xml"/>
+		<mapper resource="edu/utm/bd/mappers/VentaMapper.xml"/>
+		<mapper resource="edu/utm/bd/mappers/CompraMapper.xml"/>
+		<mapper resource="edu/utm/bd/mappers/FacturaMapper.xml"/>
+		<mapper resource="edu/utm/bd/mappers/ProductoMapper.xml"/>
+		<mapper resource="edu/utm/bd/mappers/UsuarioMapper.xml"/>
+		<mapper resource="edu/utm/bd/mappers/ProveedorMapper.xml"/>
 	</mappers>
 
 </configuration>

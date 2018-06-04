@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/PROYECTO_pages/PROYECTO_secure/primefaces/template/common/commonLayout.xhtml">
+ <ui:define name="content">
+ 	 <div class="jumbotron" style="margin-top:-70px;">
+		<div class="container" align="center">
+			<h2>Informacion de Proveedores</h2>
+		</div>
+	</div>
+ </ui:define>
+	<!-- Se define la sección a sustituir del layout -->
+	<ui:define name="content">
+	<div class="container">
+		<div class="col-md-12">
+			<h:form role="form" id="formProveedor">
+				<div class="col-md-12">
+					<p:dataTable id="tablaProveedor" value="#{proveedorConsultaNuevoBean.listaProveedor}" var="proveedor"
+	
+						
+						emptyMessage="No se encontraron datos">
+						<f:facet name ="header">
+							Tabla de Proveedores
+						</f:facet>
+						<p:column headerText="Id">
+							#{proveedor.idproveedor}
+						</p:column>
+						<p:column headerText="Nombre">
+							#{proveedor.provnombre}
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Nuevo Proveedor" onclick="PF('dialogProveedor').show();"/>
+							<p:commandButton value="Eliminar Proveedor" onclick="PF('elimProveedor').show();"/>
+							<p:commandButton value="Actualizar Proveedor" onclick="PF('updateProveedor').show();"/>
+						</f:facet>
+					</p:dataTable>
+				</div>	
+			</h:form>
+		<!-- dialog de registro -->
+  		<p:dialog id="dialogProveedor" widgetVar="dialogProveedor"
+			modal="true" resizable="false" header="Nuevo Proveedor" width="400">
+			<div class="row">
+				<div class="col-md-12"> 
+					<h:form role="form" id="formRegistro">
+						<div class="form-group">
+							<label for="ID">Id:</label>
+							<p:inputText id="ID"
+								value="#{proveedorConsultaNuevoBean.proveedor.idproveedor}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<div class="form-group">
+							<label for="firstName">Nombre:</label>
+							<p:inputText id="firstName"
+								value="#{proveedorConsultaNuevoBean.proveedor.provnombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="firstName"/>
+						</div>
+						<p:commandButton id="btnRegistro" value="Registrar"
+						actionListener="#{proveedorConsultaNuevoBean.registrar}"
+						update=":formRegistro, :formProveedor:tablaProveedor"
+						oncomplete="PF('dialogProveedor').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>  	
+		
+		<!-- Eliminar proveedor -->
+		<p:dialog id="elimProveedor" widgetVar="elimProveedor"
+			modal="true" resizable="false" header="Eliminar Proveedor" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formDelete">
+						<div class="form-group">
+							<label for="ID">ID:</label>
+							<p:inputText id="ID"
+								value="#{proveedorConsultaNuevoBean.proveedor.idproveedor}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<p:commandButton id="btnEliminar" value="Eliminar"
+						actionListener="#{proveedorConsultaNuevoBean.eliminar}"
+						update=":formDelete, :formProveedor:tablaProveedor"
+						oncomplete="PF('elimUsuario').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+		<!-- Actualizar Proveedor -->
+		<p:dialog id="updateProveedor" widgetVar="updateProveedor"
+			modal="true" resizable="false" header="Actualizar Proveedor" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formUpdate">
+						<div class="form-group">
+							<label for="ID">Id:</label>
+							<p:inputText id="ID"
+								value="#{proveedorConsultaNuevoBean.proveedor.idproveedor}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<div class="form-group">
+							<label for="Name">Nombre:</label>
+							<p:inputText id="Name"
+								value="#{proveedorConsultaNuevoBean.proveedor.provnombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido"
+								validatorMessage="Ingrese entre 8 - 80 caracteres">
+							</p:inputText>
+							<p:message for="Name"/>
+						</div>
+						<p:commandButton id="btnUpdate" value="Actualizar"
+						actionListener="#{proveedorConsultaNuevoBean.actualizar}"
+						update=":formUpdate, :formProveedor:tablaProveedor"
+						oncomplete="PF('updateProveedor').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>
+		</div>
+	</div>
+	<div class="container">
+		<br />
+		<h:link value="Regresar a index"
+		outcome="/PROYECTO_pages/PROYECTO_secure/primefaces/index"
+		styleClass="btn btn-warning"/>
+	</div>
+</ui:define>
+</ui:composition>
+</html>

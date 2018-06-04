@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/PROYECTO_pages/PROYECTO_secure/primefaces/template/common/commonLayout.xhtml">
+ <ui:define name="content">
+ 	<div class="jumbotron" style="margin-top:-70px;">
+		<div class="container" align="center">
+			<h2>Informacion de Producto</h2>
+		</div>
+	</div>	 
+ </ui:define>
+	<!-- Se define la sección a sustituir del layout -->
+	<ui:define name="content">
+	<div class="container">
+		<div class="col-md-12">
+			<h:form role="form" id="formProducto">
+				<div class="col-md-12">
+					<p:dataTable id="tablaProducto" value="#{productoConsultaNuevoBean.listaProducto}" var="producto"
+						
+						emptyMessage="No se encontraron datos">
+						<f:facet name ="header">
+							Tabla de Productos
+						</f:facet>
+						<p:column headerText="Id">
+							#{producto.idproduco}
+						</p:column>
+						<p:column headerText="Nombre">
+							#{producto.pronombre}
+						</p:column>
+						<p:column headerText="Precio de venta">
+							#{producto.proprecioventa}
+						</p:column>
+						<p:column headerText="Precio de compra">
+							#{producto.propreciocompra}
+						</p:column>
+						<p:column headerText="Cantidad">
+							#{producto.procantidad}
+						</p:column>
+						<p:column headerText="Proveedor_Id">
+							#{producto.proveedorId}
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Nuevo Producto" onclick="PF('dialogProducto').show();"/>
+							<p:commandButton value="Eliminar Producto" onclick="PF('elimProducto').show();"/>
+							<p:commandButton value="Actualizar Producto" onclick="PF('updateProducto').show();"/>
+						</f:facet>
+					</p:dataTable>
+				</div>	
+			</h:form>
+		<!-- dialog de registro -->
+		<p:dialog id="dialogProducto" widgetVar="dialogProducto"
+			modal="true" resizable="false" header="Nuevo Producto" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formRegistro">
+						<div class="form-group">
+							<label for="Id">Id:</label>
+							<p:inputText id="Id"
+								value="#{productoConsultaNuevoBean.producto.idproduco}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Id"/>
+						</div>
+						<div class="form-group">
+							<label for="Name">Nombre:</label>
+							<p:inputText id="Name"
+								value="#{productoConsultaNuevoBean.producto.pronombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Name"/>
+						</div>
+						<div class="form-group">
+							<label for="Venta">Precio de venta:</label>
+							<p:inputText id="Venta"
+								value="#{productoConsultaNuevoBean.producto.proprecioventa}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Venta"/>
+						</div>
+						<div class="form-group">
+							<label for="Compra">Precio de compra:</label>
+							<p:inputText id="Compra"
+								value="#{productoConsultaNuevoBean.producto.propreciocompra}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Compra"/>
+						</div>
+						<div class="form-group">
+							<label for="Cantidad">Cantidad:</label>
+							<p:inputText id="Cantidad"
+								value="#{productoConsultaNuevoBean.producto.procantidad}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Cantidad"/>
+						</div>
+						<div class="form-group">
+							<label for="Id_Prov">Id_Proveedor:</label>
+							<p:inputText id="Id_Prov"
+								value="#{productoConsultaNuevoBean.producto.proveedorId}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Id_Prov"/>
+						</div>
+						<p:commandButton id="btnRegistro" value="Registrar"
+						actionListener="#{productoConsultaNuevoBean.registrar}"
+						update=":formRegistro, :formProducto:tablaProducto"
+						oncomplete="PF('dialogProducto').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+		
+		<!-- Eliminar Producto-->
+		<p:dialog id="elimProducto" widgetVar="elimProducto"
+			modal="true" resizable="false" header="Eliminar Producto" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formDelete">
+						<div class="form-group">
+							<label for="ID">ID:</label>
+							<p:inputText id="ID"
+								value="#{productoConsultaNuevoBean.producto.idproduco}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<p:commandButton id="btnEliminar" value="Eliminar"
+						actionListener="#{productoConsultaNuevoBean.eliminar}"
+						update=":formDelete, :formProducto:tablaProducto"
+						oncomplete="PF('elimProducto').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>
+		<!-- Actualizar Producto -->
+		<p:dialog id="updateProducto" widgetVar="updateProducto"
+			modal="true" resizable="false" header="Actualizar Producto" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formUpdate">
+						<div class="form-group">
+							<label for="ID">Id:</label>
+							<p:inputText id="ID"
+								value="#{productoConsultaNuevoBean.producto.idproduco}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="ID"/>
+						</div>
+						<div class="form-group">
+							<label for="Nombre">Nombre:</label>
+							<p:inputText id="Nombre"
+								value="#{productoConsultaNuevoBean.producto.pronombre}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Nombre"/>
+						</div>
+						<div class="form-group">
+							<label for="PreVenta">Precio de venta:</label>
+							<p:inputText id="PreVenta"
+								value="#{productoConsultaNuevoBean.producto.proprecioventa}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="PreVenta"/>
+						</div>
+						<div class="form-group">
+							<label for="PreCompra">Precio de compra:</label>
+							<p:inputText id="PreCompra"
+								value="#{productoConsultaNuevoBean.producto.propreciocompra}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="PreCompra"/>
+						</div>
+						<div class="form-group">
+							<label for="cantidad">Cantidad:</label>
+							<p:inputText id="cantidad"
+								value="#{productoConsultaNuevoBean.producto.procantidad}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="cantidad"/>
+						</div>
+						<div class="form-group">
+							<label for="Proveedor">Id_Proveedor:</label>
+							<p:inputText id="Proveedor"
+								value="#{productoConsultaNuevoBean.producto.proveedorId}"
+								styleClass="form-control" required="true"
+								requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="Proveedor"/>
+						</div>
+
+						<p:commandButton id="btnUpdate" value="Actualizar"
+						actionListener="#{productoConsultaNuevoBean.actualizar}"
+						update=":formUpdate, :formProducto:tablaProducto"
+						oncomplete="PF('updateProducto').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	
+		</div>
+	</div>
+	<div class="container">
+		<br />
+		<h:link value="Regresar a index"
+		outcome="/PROYECTO_pages/PROYECTO_secure/primefaces/index"
+		styleClass="btn btn-warning"/>
+	</div>
+</ui:define>
+</ui:composition>
+</html>

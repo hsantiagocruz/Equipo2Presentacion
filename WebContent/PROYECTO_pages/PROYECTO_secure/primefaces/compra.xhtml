@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/PROYECTO_pages/PROYECTO_secure/primefaces/template/common/commonLayout.xhtml">
+	<ui:define name="content">
+ 	<div class="jumbotron" style="margin-top:-70px;">
+		<div class="container" align="center">
+			<h2>Informacion de Compras</h2>
+		</div>
+	</div>	 
+ </ui:define>
+	<!-- Se define la sección a sustituir del layout -->
+	<ui:define name="content">
+	<div class="container">
+	
+		<div class="col-md-12">
+			<h:form role="form" id="formCompra">
+				<div class="col-md-12">
+					<p:dataTable id="tablaCompra" value="#{compraBean.getCompraList()}" var="compra"
+						
+						emptyMessage="No se encontraron datos">
+						<f:facet name ="header">
+							Tabla de compras
+						</f:facet>
+						<p:column headerText="Id">
+							#{compra.idcompra}
+						</p:column>
+						<p:column headerText="Total">
+							#{compra.comtotal}
+						</p:column>
+						<p:column headerText="Fecha">
+							#{compra.comfecha}
+						</p:column>
+						<p:column headerText="Id de proveedor">
+							#{compra.proveedorId}
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Buscar cliente por ID" onclick="PF('buscaCompra').show();"/>
+						</f:facet>
+					</p:dataTable>
+				</div>	
+			</h:form>
+		<!-- busqueda de compra por Id--> 
+		<p:dialog id="dialogCompra" widgetVar="buscaCompra" modal="true" resizable="false" header="Busca 1 compra" width="400">
+			<div class="row">
+				<div class="col-md-12">
+					<h:form role="form" id="formRegistro">
+						<div class="form-group">
+							<label for="idcompra">Id compra:</label>
+							<p:inputText id="idcompra" value="#{compraBean.compra.idcompra}" styleClass="form-control" 
+							required="true" requiredMessage="Campo requerido">
+							</p:inputText>
+							<p:message for="idcompra"/>
+						</div>
+						<p:commandButton id="btnBusca" value="Buscar"
+						actionListener="#{compraBean.buscaCompraId}"
+						oncomplete="PF('dialogCompra').hide()"/>
+					</h:form>
+				</div>
+			</div>
+		</p:dialog>	-->
+		</div>
+	
+	</div>
+	<div class="container">
+		<br />
+		<h:link value="Regresar a index"
+		outcome="/PROYECTO_pages/PROYECTO_secure/primefaces/index"
+		styleClass="btn btn-warning"/>
+	</div>
+</ui:define>
+</ui:composition>
+</html>
